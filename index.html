@@ -606,6 +606,381 @@
       letter-spacing: 0.1em;
     }
 
+    /* ===== BOOKING MODAL ===== */
+    .booking-overlay {
+      position: fixed; inset: 0;
+      background: rgba(45,41,38,0.6);
+      backdrop-filter: blur(6px);
+      z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.35s, visibility 0.35s;
+    }
+    .booking-overlay.active { opacity: 1; visibility: visible; }
+
+    .booking-modal {
+      background: var(--warm-white);
+      width: min(520px, 92vw);
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 2.5rem 2rem;
+      position: relative;
+    }
+
+    .booking-close {
+      position: absolute; top: 1.2rem; right: 1.2rem;
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 1.4rem; line-height: 1;
+      transition: color 0.2s;
+    }
+    .booking-close:hover { color: var(--charcoal); }
+
+    .booking-progress {
+      display: flex; gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .booking-progress-step {
+      flex: 1; height: 3px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .booking-progress-step.active { background: var(--brown); }
+    .booking-progress-step.done { background: var(--sage); }
+
+    .booking-step-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--brown);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .booking-step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--charcoal);
+      margin-bottom: 1.5rem;
+    }
+
+    .booking-step { display: none; }
+    .booking-step.active { display: block; animation: fadeUp 0.35s ease; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Step 1: メニュー選択 */
+    .menu-select-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .menu-select-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .menu-select-item:hover { border-color: var(--brown-light); }
+    .menu-select-item.selected {
+      border-color: var(--brown);
+      background: rgba(139,115,85,0.04);
+    }
+    .menu-select-check {
+      width: 20px; height: 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .menu-select-item.selected .menu-select-check {
+      border-color: var(--brown);
+      background: var(--brown);
+      color: #fff;
+    }
+    .menu-select-name { flex: 1; font-size: 0.88rem; color: var(--text); }
+    .menu-select-meta {
+      font-size: 0.75rem; color: var(--text-muted);
+      text-align: right; white-space: nowrap;
+    }
+    .menu-select-price { font-weight: 500; color: var(--brown); }
+
+    .booking-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 0;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem; color: var(--text);
+    }
+    .booking-total-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 500;
+      color: var(--brown);
+    }
+
+    /* Step 2: スタイリスト選択 */
+    .stylist-select-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+    .stylist-select-card {
+      padding: 1.2rem 0.8rem;
+      border: 1px solid var(--border);
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .stylist-select-card:hover { border-color: var(--brown-light); }
+    .stylist-select-card.selected {
+      border-color: var(--brown);
+      background: rgba(139,115,85,0.04);
+    }
+    .stylist-select-photo {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      margin: 0 auto 0.6rem;
+      background-size: cover; background-position: center;
+      background-color: var(--brown-pale);
+    }
+    .stylist-select-name {
+      font-size: 0.85rem;
+      color: var(--charcoal);
+      margin-bottom: 0.15rem;
+    }
+    .stylist-select-role {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Step 3: カレンダー */
+    .calendar-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .calendar-header h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 400;
+      color: var(--charcoal);
+    }
+    .calendar-nav {
+      background: none; border: 1px solid var(--border);
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      color: var(--text);
+    }
+    .calendar-nav:hover { border-color: var(--brown); }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .calendar-dow {
+      text-align: center;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding: 0.4rem 0;
+      text-transform: uppercase;
+    }
+    .calendar-day {
+      text-align: center;
+      padding: 0.55rem 0;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      color: var(--text);
+    }
+    .calendar-day:hover { background: var(--brown-pale); }
+    .calendar-day.today {
+      font-weight: 500;
+      color: var(--brown);
+    }
+    .calendar-day.selected {
+      background: var(--brown);
+      color: #fff;
+    }
+    .calendar-day.disabled {
+      color: var(--border);
+      cursor: default;
+      pointer-events: none;
+    }
+    .calendar-day.holiday {
+      color: var(--border);
+      cursor: default;
+      pointer-events: none;
+      text-decoration: line-through;
+    }
+    .calendar-day.empty { pointer-events: none; }
+    .calendar-day.sun { color: #C47A6E; }
+    .calendar-day.sun.disabled, .calendar-day.sun.holiday { color: var(--border); }
+
+    .time-slots-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+    .time-slot {
+      padding: 0.55rem 0;
+      text-align: center;
+      font-size: 0.82rem;
+      border: 1px solid var(--border);
+      background: none;
+      cursor: pointer;
+      color: var(--text);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .time-slot:hover { border-color: var(--brown-light); }
+    .time-slot.selected {
+      border-color: var(--brown);
+      background: var(--brown);
+      color: #fff;
+    }
+    .time-slot.unavailable {
+      color: var(--border);
+      cursor: default;
+      pointer-events: none;
+      text-decoration: line-through;
+    }
+
+    /* Step 4: 入力フォーム */
+    .booking-form-group {
+      margin-bottom: 1.2rem;
+    }
+    .booking-form-group label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.05em;
+    }
+    .booking-form-group input {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--border);
+      background: var(--warm-white);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .booking-form-group input:focus {
+      outline: none;
+      border-color: var(--brown);
+    }
+    .booking-form-group input::placeholder { color: var(--border); }
+
+    .booking-summary-box {
+      background: var(--cream);
+      padding: 1.2rem;
+      margin-top: 1rem;
+    }
+    .booking-summary-row {
+      display: flex; justify-content: space-between;
+      padding: 0.4rem 0;
+      font-size: 0.82rem;
+      color: var(--text);
+    }
+    .booking-summary-row span:first-child { color: var(--text-muted); }
+
+    /* 完了画面 */
+    .booking-done {
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+    .booking-done-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--sage-light);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.2rem;
+      color: var(--sage);
+    }
+    .booking-done-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--charcoal);
+      margin-bottom: 0.6rem;
+    }
+    .booking-done-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .booking-demo-badge {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.4rem 1rem;
+      font-size: 0.7rem;
+      color: var(--brown);
+      border: 1px solid var(--brown-pale);
+      letter-spacing: 0.05em;
+    }
+
+    /* ナビゲーションボタン */
+    .booking-nav {
+      display: flex; gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+    .booking-btn {
+      flex: 1;
+      padding: 0.8rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      text-align: center;
+    }
+    .booking-btn:hover { opacity: 0.85; }
+    .booking-btn-back {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .booking-btn-next {
+      background: var(--brown);
+      color: #fff;
+    }
+    .booking-btn-next:disabled {
+      background: var(--brown-pale);
+      cursor: default;
+      opacity: 1;
+    }
+    .booking-btn-submit {
+      background: var(--charcoal);
+      color: #fff;
+      width: 100%;
+      padding: 0.9rem;
+    }
+    .booking-btn-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .booking-modal { padding: 2rem 1.2rem; width: 100%; max-height: 100vh; height: 100%; }
+      .stylist-select-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+      .time-slots { grid-template-columns: repeat(3, 1fr); }
+    }
+
     /* ===== REVEAL ANIMATION ===== */
     .reveal {
       opacity: 0;
@@ -675,7 +1050,7 @@
       <a href="#gallery">Gallery</a>
       <a href="#voice">Voice</a>
       <a href="#access">Access</a>
-      <a href="#reserve" class="nav-cta">予約する</a>
+      <a href="javascript:void(0)" class="nav-cta" onclick="openBooking()">予約する</a>
     </nav>
     <button class="hamburger" onclick="toggleNav()" aria-label="メニュー">
       <span></span><span></span><span></span>
@@ -690,7 +1065,7 @@
   <a href="#gallery" onclick="closeNav()">Gallery</a>
   <a href="#voice" onclick="closeNav()">Voice</a>
   <a href="#access" onclick="closeNav()">Access</a>
-  <a href="#reserve" onclick="closeNav()" class="nav-cta" style="margin:0">予約する</a>
+  <a href="javascript:void(0)" onclick="closeNav();openBooking()" class="nav-cta" style="margin:0">予約する</a>
 </div>
 
 <!-- ===== HERO ===== -->
@@ -707,7 +1082,7 @@
         Lumière は一人ひとりの髪質・ライフスタイルに寄り添い、
         再現しやすいスタイルをご提案します。
       </p>
-      <a href="#reserve" class="hero-cta reveal">
+      <a href="javascript:void(0)" class="hero-cta reveal" onclick="openBooking()">
         予約する
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -943,7 +1318,7 @@
     初回の方はカウンセリングを含めて少しお時間をいただいております。
   </p>
   <div class="cta-buttons reveal">
-    <a href="#" class="cta-btn cta-btn-primary">
+    <a href="javascript:void(0)" class="cta-btn cta-btn-primary" onclick="openBooking()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
       オンライン予約
     </a>
@@ -953,6 +1328,103 @@
     </a>
   </div>
 </section>
+
+<!-- ===== BOOKING MODAL ===== -->
+<div class="booking-overlay" id="bookingOverlay" onclick="if(event.target===this)closeBooking()">
+  <div class="booking-modal">
+    <button class="booking-close" onclick="closeBooking()">&times;</button>
+
+    <div class="booking-progress" id="bookingProgress">
+      <div class="booking-progress-step active"></div>
+      <div class="booking-progress-step"></div>
+      <div class="booking-progress-step"></div>
+      <div class="booking-progress-step"></div>
+    </div>
+
+    <!-- Step 1: メニュー選択 -->
+    <div class="booking-step active" id="bkStep1">
+      <p class="booking-step-label">Step 1 / 4</p>
+      <h3 class="booking-step-title">メニューを選択</h3>
+      <div class="menu-select-list" id="menuSelectList"></div>
+      <div class="booking-total">
+        <span>合計 (税込) / 所要時間</span>
+        <span><span class="booking-total-price" id="menuTotal">&yen;0</span> <span id="menuTime" style="font-size:0.78rem;color:var(--text-muted);margin-left:0.4rem">0分</span></span>
+      </div>
+      <div class="booking-nav">
+        <button class="booking-btn booking-btn-next" id="btnStep1Next" disabled onclick="goToStep(2)">スタイリスト選択へ</button>
+      </div>
+    </div>
+
+    <!-- Step 2: スタイリスト選択 -->
+    <div class="booking-step" id="bkStep2">
+      <p class="booking-step-label">Step 2 / 4</p>
+      <h3 class="booking-step-title">スタイリストを選択</h3>
+      <div class="stylist-select-grid" id="stylistSelectGrid"></div>
+      <div class="booking-nav">
+        <button class="booking-btn booking-btn-back" onclick="goToStep(1)">戻る</button>
+        <button class="booking-btn booking-btn-next" id="btnStep2Next" disabled onclick="goToStep(3)">日時選択へ</button>
+      </div>
+    </div>
+
+    <!-- Step 3: 日時選択 -->
+    <div class="booking-step" id="bkStep3">
+      <p class="booking-step-label">Step 3 / 4</p>
+      <h3 class="booking-step-title">日時を選択</h3>
+      <div class="calendar-header">
+        <button class="calendar-nav" onclick="changeMonth(-1)">&#8249;</button>
+        <h3 id="calendarTitle"></h3>
+        <button class="calendar-nav" onclick="changeMonth(1)">&#8250;</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <div id="timeSlotsArea" style="display:none">
+        <p class="time-slots-label" id="timeSlotsLabel"></p>
+        <div class="time-slots" id="timeSlots"></div>
+      </div>
+      <div class="booking-nav">
+        <button class="booking-btn booking-btn-back" onclick="goToStep(2)">戻る</button>
+        <button class="booking-btn booking-btn-next" id="btnStep3Next" disabled onclick="goToStep(4)">お客様情報入力へ</button>
+      </div>
+    </div>
+
+    <!-- Step 4: お客様情報 + 確認 -->
+    <div class="booking-step" id="bkStep4">
+      <p class="booking-step-label">Step 4 / 4</p>
+      <h3 class="booking-step-title">ご予約内容の確認</h3>
+      <div class="booking-summary-box" id="bookingSummary"></div>
+      <div style="margin-top:1.5rem">
+        <div class="booking-form-group">
+          <label>お名前</label>
+          <input type="text" id="bkName" placeholder="山田 花子" oninput="checkForm()">
+        </div>
+        <div class="booking-form-group">
+          <label>お電話番号</label>
+          <input type="tel" id="bkPhone" placeholder="090-1234-5678" oninput="checkForm()">
+        </div>
+        <div class="booking-form-group">
+          <label>メールアドレス</label>
+          <input type="email" id="bkEmail" placeholder="hanako@example.com" oninput="checkForm()">
+        </div>
+      </div>
+      <div class="booking-nav" style="flex-direction:column;gap:0.5rem">
+        <button class="booking-btn booking-btn-submit" id="btnSubmit" disabled onclick="submitBooking()">予約を確定する</button>
+        <button class="booking-btn booking-btn-back" onclick="goToStep(3)" style="flex:none">戻る</button>
+      </div>
+    </div>
+
+    <!-- 完了画面 -->
+    <div class="booking-step" id="bkStepDone">
+      <div class="booking-done">
+        <div class="booking-done-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3 class="booking-done-title">ご予約ありがとうございます</h3>
+        <div class="booking-summary-box" id="doneSummary"></div>
+        <p class="booking-demo-badge">DEMO - 実際の送信は行われません</p>
+      </div>
+      <button class="booking-btn-close" onclick="closeBooking()">閉じる</button>
+    </div>
+  </div>
+</div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
@@ -999,6 +1471,275 @@
       }
     });
   });
+
+  /* ===== BOOKING SYSTEM ===== */
+
+  /* -- データ定義 -- */
+  const MENUS = [
+    { id: 'cut', name: 'カット', price: 5500, time: 60 },
+    { id: 'cut_sb', name: 'カット + シャンプーブロー', price: 6600, time: 75 },
+    { id: 'bangs', name: '前髪カット', price: 1100, time: 15 },
+    { id: 'color', name: 'ワンカラー', price: 7700, time: 90 },
+    { id: 'wcolor', name: 'ダブルカラー', price: 13200, time: 120 },
+    { id: 'highlight', name: 'ハイライト', price: 8800, time: 100 },
+    { id: 'treatment', name: '髪質改善トリートメント', price: 5500, time: 45 },
+    { id: 'repair', name: '集中補修トリートメント', price: 3300, time: 30 },
+    { id: 'headspa', name: 'ヘッドスパ（20分）', price: 3850, time: 20 },
+    { id: 'set_cc', name: 'カット + カラー', price: 12100, time: 120 },
+    { id: 'set_cct', name: 'カット + カラー + TR', price: 15400, time: 150 },
+    { id: 'set_ct', name: 'カラー + トリートメント', price: 11000, time: 100 },
+  ];
+
+  const STYLISTS = [
+    { id: 'takahashi', name: '高橋 美咲', role: 'Owner Stylist', photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80' },
+    { id: 'tanaka', name: '田中 蓮', role: 'Stylist', photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80' },
+    { id: 'sato', name: '佐藤 ゆい', role: 'Junior Stylist', photo: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&q=80' },
+    { id: 'none', name: '指名なし', role: 'お任せ', photo: '' },
+  ];
+
+  const HOURS = ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00'];
+
+  /* -- 状態管理 -- */
+  let booking = { menus: [], stylist: null, date: null, time: null };
+  let calYear, calMonth;
+
+  /* -- Step 1: メニュー選択 -- */
+  function renderMenuList() {
+    const list = document.getElementById('menuSelectList');
+    list.innerHTML = MENUS.map(m => `
+      <div class="menu-select-item" data-id="${m.id}" onclick="toggleMenu('${m.id}')">
+        <div class="menu-select-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <span class="menu-select-name">${m.name}</span>
+        <span class="menu-select-meta"><span class="menu-select-price">&yen;${m.price.toLocaleString()}</span><br>${m.time}分</span>
+      </div>
+    `).join('');
+  }
+
+  function toggleMenu(id) {
+    const idx = booking.menus.indexOf(id);
+    if (idx >= 0) booking.menus.splice(idx, 1);
+    else booking.menus.push(id);
+    updateMenuUI();
+  }
+
+  function updateMenuUI() {
+    document.querySelectorAll('.menu-select-item').forEach(el => {
+      el.classList.toggle('selected', booking.menus.includes(el.dataset.id));
+    });
+    const selected = MENUS.filter(m => booking.menus.includes(m.id));
+    const total = selected.reduce((s, m) => s + m.price, 0);
+    const time = selected.reduce((s, m) => s + m.time, 0);
+    document.getElementById('menuTotal').innerHTML = `&yen;${total.toLocaleString()}`;
+    document.getElementById('menuTime').textContent = `${time}分`;
+    document.getElementById('btnStep1Next').disabled = booking.menus.length === 0;
+  }
+
+  /* -- Step 2: スタイリスト選択 -- */
+  function renderStylistGrid() {
+    const grid = document.getElementById('stylistSelectGrid');
+    grid.innerHTML = STYLISTS.map(s => `
+      <div class="stylist-select-card" data-id="${s.id}" onclick="selectStylist('${s.id}')">
+        <div class="stylist-select-photo" style="${s.photo ? `background-image:url('${s.photo}')` : ''}"></div>
+        <p class="stylist-select-name">${s.name}</p>
+        <p class="stylist-select-role">${s.role}</p>
+      </div>
+    `).join('');
+  }
+
+  function selectStylist(id) {
+    booking.stylist = id;
+    document.querySelectorAll('.stylist-select-card').forEach(el => {
+      el.classList.toggle('selected', el.dataset.id === id);
+    });
+    document.getElementById('btnStep2Next').disabled = false;
+  }
+
+  /* -- Step 3: カレンダー -- */
+  function initCalendar() {
+    const now = new Date();
+    calYear = now.getFullYear();
+    calMonth = now.getMonth();
+    renderCalendar();
+  }
+
+  function changeMonth(dir) {
+    calMonth += dir;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+  }
+
+  function renderCalendar() {
+    const title = document.getElementById('calendarTitle');
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    title.textContent = `${months[calMonth]} ${calYear}`;
+
+    const grid = document.getElementById('calendarGrid');
+    const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    let html = dows.map(d => `<div class="calendar-dow">${d}</div>`).join('');
+
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    /* 月初の空白 */
+    for (let i = 0; i < firstDay; i++) html += '<div class="calendar-day empty"></div>';
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(calYear, calMonth, d);
+      const dow = date.getDay();
+      const isPast = date < today;
+      /* 火曜定休 */
+      const isTuesday = dow === 2;
+      const isSunday = dow === 0;
+      const isSelected = booking.date && booking.date.getTime() === date.getTime();
+      const isToday = date.getTime() === today.getTime();
+
+      let cls = 'calendar-day';
+      if (isPast) cls += ' disabled';
+      else if (isTuesday) cls += ' holiday';
+      else {
+        if (isSunday) cls += ' sun';
+        if (isToday) cls += ' today';
+        if (isSelected) cls += ' selected';
+      }
+
+      const clickable = !isPast && !isTuesday;
+      html += `<div class="${cls}" ${clickable ? `onclick="selectDate(${calYear},${calMonth},${d})"` : ''}>${d}</div>`;
+    }
+    grid.innerHTML = html;
+  }
+
+  function selectDate(y, m, d) {
+    booking.date = new Date(y, m, d);
+    booking.time = null;
+    renderCalendar();
+    showTimeSlots();
+    document.getElementById('btnStep3Next').disabled = true;
+  }
+
+  function showTimeSlots() {
+    const area = document.getElementById('timeSlotsArea');
+    const label = document.getElementById('timeSlotsLabel');
+    const container = document.getElementById('timeSlots');
+    area.style.display = 'block';
+
+    const d = booking.date;
+    const m = d.getMonth() + 1;
+    const dayStr = d.getDate();
+    const dow = ['日','月','火','水','木','金','土'][d.getDay()];
+    label.textContent = `${m}月${dayStr}日（${dow}）の空き状況`;
+
+    /* デモ用: シード値ベースでランダムに予約済みスロットを生成 */
+    const seed = d.getFullYear() * 10000 + d.getMonth() * 100 + d.getDate();
+    container.innerHTML = HOURS.map((h, i) => {
+      const hash = (seed * 31 + i * 7) % 10;
+      const unavailable = hash < 3; /* 約30%が予約済み */
+      const cls = unavailable ? 'time-slot unavailable' : 'time-slot';
+      return `<div class="${cls}" ${unavailable ? '' : `onclick="selectTime('${h}',this)"`}>${h}</div>`;
+    }).join('');
+  }
+
+  function selectTime(time, el) {
+    booking.time = time;
+    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('btnStep3Next').disabled = false;
+  }
+
+  /* -- Step 4: 確認 + フォーム -- */
+  function renderSummary(targetId) {
+    const target = document.getElementById(targetId);
+    const selectedMenus = MENUS.filter(m => booking.menus.includes(m.id));
+    const total = selectedMenus.reduce((s, m) => s + m.price, 0);
+    const time = selectedMenus.reduce((s, m) => s + m.time, 0);
+    const stylist = STYLISTS.find(s => s.id === booking.stylist);
+    const d = booking.date;
+    const dow = ['日','月','火','水','木','金','土'][d.getDay()];
+    const dateStr = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日（${dow}）`;
+
+    target.innerHTML = `
+      <div class="booking-summary-row"><span>メニュー</span><span>${selectedMenus.map(m=>m.name).join('、')}</span></div>
+      <div class="booking-summary-row"><span>スタイリスト</span><span>${stylist.name}</span></div>
+      <div class="booking-summary-row"><span>日時</span><span>${dateStr} ${booking.time}</span></div>
+      <div class="booking-summary-row"><span>所要時間</span><span>約${time}分</span></div>
+      <div class="booking-summary-row" style="border-top:1px solid var(--border);padding-top:0.6rem;margin-top:0.3rem">
+        <span>合計（税込）</span><span style="font-weight:500;color:var(--brown)">&yen;${total.toLocaleString()}</span></div>
+    `;
+  }
+
+  function checkForm() {
+    const name = document.getElementById('bkName').value.trim();
+    const phone = document.getElementById('bkPhone').value.trim();
+    const email = document.getElementById('bkEmail').value.trim();
+    document.getElementById('btnSubmit').disabled = !(name && phone && email);
+  }
+
+  function submitBooking() {
+    renderSummary('doneSummary');
+    /* 名前を完了画面にも表示 */
+    const name = document.getElementById('bkName').value.trim();
+    const nameRow = `<div class="booking-summary-row"><span>お名前</span><span>${name}</span></div>`;
+    document.getElementById('doneSummary').innerHTML = nameRow + document.getElementById('doneSummary').innerHTML;
+    goToStep('done');
+  }
+
+  /* -- ステップ遷移 -- */
+  function goToStep(n) {
+    document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+
+    if (n === 'done') {
+      document.getElementById('bkStepDone').classList.add('active');
+      /* プログレスバー全部完了 */
+      document.querySelectorAll('.booking-progress-step').forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
+      return;
+    }
+
+    document.getElementById(`bkStep${n}`).classList.add('active');
+
+    /* プログレスバー更新 */
+    document.querySelectorAll('.booking-progress-step').forEach((s, i) => {
+      s.classList.remove('active', 'done');
+      if (i < n - 1) s.classList.add('done');
+      else if (i === n - 1) s.classList.add('active');
+    });
+
+    /* ステップ別の初期化 */
+    if (n === 3) initCalendar();
+    if (n === 4) renderSummary('bookingSummary');
+
+    /* モーダル上部にスクロール */
+    document.querySelector('.booking-modal').scrollTop = 0;
+  }
+
+  /* -- モーダル開閉 -- */
+  function openBooking() {
+    /* 状態リセット */
+    booking = { menus: [], stylist: null, date: null, time: null };
+    renderMenuList();
+    renderStylistGrid();
+    updateMenuUI();
+
+    /* フォームリセット */
+    ['bkName','bkPhone','bkEmail'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('btnSubmit').disabled = true;
+    document.getElementById('timeSlotsArea').style.display = 'none';
+
+    /* Step1から開始 */
+    goToStep(1);
+    document.getElementById('bookingOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBooking() {
+    document.getElementById('bookingOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  /* 初期描画 */
+  renderMenuList();
+  renderStylistGrid();
 </script>
 
 </body>
