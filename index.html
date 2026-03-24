@@ -454,8 +454,12 @@
       width: 180px; height: 180px;
       border-radius: 50%;
       margin: 0 auto 1.5rem;
-      background-size: cover;
-      background-position: center;
+      overflow: hidden;
+    }
+
+    .stylist-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
     }
 
     .stylist-name {
@@ -491,10 +495,14 @@
 
     .gallery-item {
       aspect-ratio: 1;
-      background-size: cover;
-      background-position: center;
+      overflow: hidden;
       transition: opacity 0.3s;
       cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
     }
 
     .gallery-item:hover { opacity: 0.85; }
@@ -1270,19 +1278,19 @@
 
   <div class="stylists-grid">
     <div class="stylist-card reveal">
-      <div class="stylist-photo" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&q=80')"></div>
+      <div class="stylist-photo"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&q=80" alt="高橋 美咲" loading="lazy"></div>
       <h3 class="stylist-name">高橋 美咲</h3>
       <p class="stylist-role">Owner Stylist</p>
       <p class="stylist-bio">都内サロンで12年の経験を経て独立。骨格診断を取り入れたカウンセリングが好評。ショート〜ミディアムが得意。</p>
     </div>
     <div class="stylist-card reveal">
-      <div class="stylist-photo" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&q=80')"></div>
+      <div class="stylist-photo"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&q=80" alt="田中 蓮" loading="lazy"></div>
       <h3 class="stylist-name">田中 蓮</h3>
       <p class="stylist-role">Stylist</p>
       <p class="stylist-bio">カラーリングのスペシャリスト。透明感のあるナチュラルカラーと、ダメージを抑えたハイライト技術に定評あり。</p>
     </div>
     <div class="stylist-card reveal">
-      <div class="stylist-photo" style="background-image:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&q=80')"></div>
+      <div class="stylist-photo"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&q=80" alt="佐藤 ゆい" loading="lazy"></div>
       <h3 class="stylist-name">佐藤 ゆい</h3>
       <p class="stylist-role">Junior Stylist</p>
       <p class="stylist-bio">トリートメントとヘッドスパを担当。髪と頭皮のケアを通じて、サロンタイムをリラクゼーションの時間に。</p>
@@ -1297,14 +1305,14 @@
     <h2 class="section-title reveal">スタイルギャラリー</h2>
   </div>
   <div class="gallery-grid reveal">
-    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80')"></div>
-    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=400&q=80')"></div>
-    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=400&q=80')"></div>
-    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=400&q=80')"></div>
-    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=400&q=80')"></div>
-    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400&q=80')"></div>
-    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&q=80')"></div>
-    <div class="gallery-item" style="background-image:url('https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=400&q=80')"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80" alt="ヘアスタイル1" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=400&q=80" alt="ヘアスタイル2" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=400&q=80" alt="ヘアスタイル3" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=400&q=80" alt="ヘアスタイル4" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=400&q=80" alt="ヘアスタイル5" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400&q=80" alt="ヘアスタイル6" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&q=80" alt="ヘアスタイル7" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=400&q=80" alt="ヘアスタイル8" loading="lazy"></div>
   </div>
 </section>
 
@@ -1391,7 +1399,7 @@
 </section>
 
 <!-- ===== BOOKING MODAL ===== -->
-<div class="booking-overlay" id="bookingOverlay" onclick="if(event.target===this)closeBooking()">
+<div class="booking-overlay" id="bookingOverlay" role="dialog" aria-modal="true" aria-label="オンライン予約" onclick="if(event.target===this)closeBooking()">
   <div class="booking-modal">
     <button class="booking-close" onclick="closeBooking()">&times;</button>
 
@@ -1627,6 +1635,9 @@
   }
 
   function changeMonth(dir) {
+    /* 過去の月への移動を防止 */
+    const now = new Date();
+    if (dir < 0 && calYear === now.getFullYear() && calMonth === now.getMonth()) return;
     calMonth += dir;
     if (calMonth > 11) { calMonth = 0; calYear++; }
     if (calMonth < 0) { calMonth = 11; calYear--; }
@@ -1808,11 +1819,32 @@
     goToStep(1);
     document.getElementById('bookingOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', bookingKeyHandler);
+    /* モーダル内の閉じるボタンにフォーカス */
+    document.querySelector('.booking-close').focus();
   }
 
   function closeBooking() {
     document.getElementById('bookingOverlay').classList.remove('active');
     document.body.style.overflow = '';
+    document.removeEventListener('keydown', bookingKeyHandler);
+  }
+
+  /* ESCキーで閉じる + Tab キーフォーカストラップ */
+  function bookingKeyHandler(e) {
+    if (e.key === 'Escape') { closeBooking(); return; }
+    if (e.key === 'Tab') {
+      const modal = document.querySelector('.booking-modal');
+      const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
   }
 
   /* 初期描画 */
