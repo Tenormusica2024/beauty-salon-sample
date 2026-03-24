@@ -284,7 +284,11 @@
 
     .hero-image-placeholder {
       width: 100%; height: 100%;
-      background: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80') center/cover no-repeat;
+      overflow: hidden;
+    }
+    .hero-image-placeholder img {
+      width: 100%; height: 100%;
+      object-fit: cover;
     }
 
     .hero-badge {
@@ -358,7 +362,11 @@
 
     .concept-image-placeholder {
       aspect-ratio: 4/5;
-      background: url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80') center/cover no-repeat;
+      overflow: hidden;
+    }
+    .concept-image-placeholder img {
+      width: 100%; height: 100%;
+      object-fit: cover;
     }
 
     .concept-text .section-title { margin-bottom: 2rem; }
@@ -808,8 +816,12 @@
       width: 64px; height: 64px;
       border-radius: 50%;
       margin: 0 auto 0.6rem;
-      background-size: cover; background-position: center;
+      overflow: hidden;
       background-color: var(--brown-pale);
+    }
+    .stylist-select-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
     }
     .stylist-select-name {
       font-size: 0.85rem;
@@ -1169,7 +1181,7 @@
       </a>
     </div>
     <div class="hero-image reveal">
-      <div class="hero-image-placeholder"></div>
+      <div class="hero-image-placeholder"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80" alt="hair salon Lumiere 店内の様子"></div>
       <div class="hero-badge">
         <div class="hero-badge-number">4.8</div>
         <div class="hero-badge-text">Google 口コミ評価</div>
@@ -1181,7 +1193,7 @@
 <!-- ===== CONCEPT ===== -->
 <section id="concept">
   <div class="concept-inner">
-    <div class="concept-image-placeholder reveal"></div>
+    <div class="concept-image-placeholder reveal"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" alt="カウンセリング中のスタイリスト" loading="lazy"></div>
     <div class="concept-text">
       <p class="section-label reveal">Concept</p>
       <h2 class="section-title reveal">「似合う」は、<br>つくるものではなく見つけるもの</h2>
@@ -1481,13 +1493,13 @@
         </div>
         <div class="booking-form-group">
           <label>お電話番号</label>
-          <input type="tel" id="bkPhone" placeholder="090-1234-5678" oninput="checkForm()">
-          <span class="form-error" id="phoneError"></span>
+          <input type="tel" id="bkPhone" placeholder="090-1234-5678" oninput="checkForm()" aria-describedby="phoneError">
+          <span class="form-error" id="phoneError" role="alert"></span>
         </div>
         <div class="booking-form-group">
           <label>メールアドレス</label>
-          <input type="email" id="bkEmail" placeholder="hanako@example.com" oninput="checkForm()">
-          <span class="form-error" id="emailError"></span>
+          <input type="email" id="bkEmail" placeholder="hanako@example.com" oninput="checkForm()" aria-describedby="emailError">
+          <span class="form-error" id="emailError" role="alert"></span>
         </div>
       </div>
       <div class="booking-nav" style="flex-direction:column;gap:0.5rem">
@@ -1627,7 +1639,7 @@
     const grid = document.getElementById('stylistSelectGrid');
     grid.innerHTML = STYLISTS.map(s => `
       <div class="stylist-select-card" data-id="${s.id}" onclick="selectStylist('${s.id}')">
-        <div class="stylist-select-photo" style="${s.photo ? `background-image:url('${s.photo}')` : ''}"></div>
+        <div class="stylist-select-photo">${s.photo ? `<img src="${s.photo}" alt="${s.name}">` : ''}</div>
         <p class="stylist-select-name">${s.name}</p>
         <p class="stylist-select-role">${s.role}</p>
       </div>
