@@ -5,6 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>hair salon Lumière | 柏駅徒歩5分の美容室</title>
   <meta name="description" content="柏駅徒歩5分。カット・カラー・トリートメント。あなたらしさを引き出すパーソナルヘアサロン Lumière（ルミエール）">
+  <!-- OGP -->
+  <meta property="og:title" content="hair salon Lumiere | 柏駅徒歩5分の美容室">
+  <meta property="og:description" content="骨格・髪質に寄り添うパーソナルカウンセリング。カット・カラー・トリートメント、オンライン予約対応。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://beauty-salon-lumiere.vercel.app/">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="hair salon Lumiere | 柏駅徒歩5分の美容室">
+  <meta name="twitter:description" content="骨格・髪質に寄り添うパーソナルカウンセリング。オンライン予約対応。">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80">
+  <!-- 構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HairSalon",
+    "name": "hair salon Lumiere",
+    "description": "骨格・髪質に寄り添うパーソナルカウンセリング。あなたらしさを引き出すヘアサロン。",
+    "url": "https://beauty-salon-lumiere.vercel.app/",
+    "image": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&q=80",
+    "telephone": "04-7100-XXXX",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "柏1丁目2-3 ルミエールビル 2F",
+      "addressLocality": "柏市",
+      "addressRegion": "千葉県",
+      "postalCode": "277-0005",
+      "addressCountry": "JP"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 35.8581,
+      "longitude": 139.9714
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Wednesday", "Thursday", "Friday"],
+        "opens": "10:00",
+        "closes": "20:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday", "Sunday"],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "bestRating": "5",
+      "ratingCount": "47"
+    },
+    "priceRange": "$$"
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
@@ -1466,7 +1523,7 @@
   }
 
   /* ===== Smooth scroll ===== */
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
@@ -1686,7 +1743,15 @@
     const name = document.getElementById('bkName').value.trim();
     const phone = document.getElementById('bkPhone').value.trim();
     const email = document.getElementById('bkEmail').value.trim();
-    document.getElementById('btnSubmit').disabled = !(name && phone && email);
+
+    const phoneValid = /^[0-9\-]{10,14}$/.test(phone);
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    /* 入力フィールドの視覚フィードバック */
+    document.getElementById('bkPhone').style.borderColor = phone && !phoneValid ? '#C47A6E' : '';
+    document.getElementById('bkEmail').style.borderColor = email && !emailValid ? '#C47A6E' : '';
+
+    document.getElementById('btnSubmit').disabled = !(name && phoneValid && emailValid);
   }
 
   function submitBooking() {
