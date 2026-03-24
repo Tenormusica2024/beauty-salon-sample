@@ -945,6 +945,14 @@
     }
     .booking-form-group input::placeholder { color: var(--border); }
 
+    .form-error {
+      font-size: 0.7rem;
+      color: #C47A6E;
+      margin-top: 0.25rem;
+      display: block;
+      min-height: 1em;
+    }
+
     .booking-summary-box {
       background: var(--cream);
       padding: 1.2rem;
@@ -1093,6 +1101,8 @@
         grid-template-columns: 1fr;
         gap: 2rem;
       }
+
+      .access-map { aspect-ratio: 16/9; }
 
       .cta-buttons { flex-direction: column; align-items: center; }
       .cta-btn { width: 100%; max-width: 320px; justify-content: center; }
@@ -1468,10 +1478,12 @@
         <div class="booking-form-group">
           <label>お電話番号</label>
           <input type="tel" id="bkPhone" placeholder="090-1234-5678" oninput="checkForm()">
+          <span class="form-error" id="phoneError"></span>
         </div>
         <div class="booking-form-group">
           <label>メールアドレス</label>
           <input type="email" id="bkEmail" placeholder="hanako@example.com" oninput="checkForm()">
+          <span class="form-error" id="emailError"></span>
         </div>
       </div>
       <div class="booking-nav" style="flex-direction:column;gap:0.5rem">
@@ -1758,17 +1770,26 @@
     const phoneValid = /^[0-9\-]{10,14}$/.test(phone);
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    /* 入力フィールドの視覚フィードバック */
+    /* 入力フィールドの視覚フィードバック + エラーメッセージ */
     document.getElementById('bkPhone').style.borderColor = phone && !phoneValid ? '#C47A6E' : '';
+    document.getElementById('phoneError').textContent = phone && !phoneValid ? '半角数字とハイフンで入力してください' : '';
     document.getElementById('bkEmail').style.borderColor = email && !emailValid ? '#C47A6E' : '';
+    document.getElementById('emailError').textContent = email && !emailValid ? '正しいメールアドレスを入力してください' : '';
 
     document.getElementById('btnSubmit').disabled = !(name && phoneValid && emailValid);
   }
 
+  /* HTMLエスケープ（XSS防止） */
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
   function submitBooking() {
     renderSummary('doneSummary');
-    /* 名前を完了画面にも表示 */
-    const name = document.getElementById('bkName').value.trim();
+    /* 名前を完了画面にも表示（エスケープ済み） */
+    const name = escapeHtml(document.getElementById('bkName').value.trim());
     const nameRow = `<div class="booking-summary-row"><span>お名前</span><span>${name}</span></div>`;
     document.getElementById('doneSummary').innerHTML = nameRow + document.getElementById('doneSummary').innerHTML;
     goToStep('done');
