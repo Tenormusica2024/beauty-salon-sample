@@ -759,11 +759,13 @@
       flex-shrink: 0;
       transition: border-color 0.2s, background 0.2s;
     }
+    .menu-select-check svg { opacity: 0; transition: opacity 0.2s; }
     .menu-select-item.selected .menu-select-check {
       border-color: var(--brown);
       background: var(--brown);
       color: #fff;
     }
+    .menu-select-item.selected .menu-select-check svg { opacity: 1; }
     .menu-select-name { flex: 1; font-size: 0.88rem; color: var(--text); }
     .menu-select-meta {
       font-size: 0.75rem; color: var(--text-muted);
