@@ -1157,8 +1157,12 @@
         <span class="menu-item-price">&yen;5,500</span>
       </div>
       <div class="menu-item">
+        <span class="menu-item-name">ダブルカラー</span>
+        <span class="menu-item-price">&yen;13,200</span>
+      </div>
+      <div class="menu-item">
         <span class="menu-item-name">ハイライト</span>
-        <span class="menu-item-price">&yen;4,400〜</span>
+        <span class="menu-item-price">&yen;8,800</span>
       </div>
     </div>
 
@@ -1480,6 +1484,7 @@
     { id: 'cut_sb', name: 'カット + シャンプーブロー', price: 6600, time: 75 },
     { id: 'bangs', name: '前髪カット', price: 1100, time: 15 },
     { id: 'color', name: 'ワンカラー', price: 7700, time: 90 },
+    { id: 'retouch', name: 'リタッチカラー', price: 5500, time: 60 },
     { id: 'wcolor', name: 'ダブルカラー', price: 13200, time: 120 },
     { id: 'highlight', name: 'ハイライト', price: 8800, time: 100 },
     { id: 'treatment', name: '髪質改善トリートメント', price: 5500, time: 45 },
@@ -1497,7 +1502,9 @@
     { id: 'none', name: '指名なし', role: 'お任せ', photo: '' },
   ];
 
-  const HOURS = ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00'];
+  /* 平日: 10:00-20:00（最終受付19:00）/ 土日祝: 9:00-19:00（最終受付18:00） */
+  const HOURS_WEEKDAY = ['10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00'];
+  const HOURS_WEEKEND = ['9:00','9:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
 
   /* -- 状態管理 -- */
   let booking = { menus: [], stylist: null, date: null, time: null };
@@ -1590,22 +1597,24 @@
       const date = new Date(calYear, calMonth, d);
       const dow = date.getDay();
       const isPast = date < today;
-      /* 火曜定休 */
+      /* 火曜定休 + 第3月曜定休 */
       const isTuesday = dow === 2;
+      const isThirdMonday = dow === 1 && Math.ceil(d / 7) === 3;
+      const isHoliday = isTuesday || isThirdMonday;
       const isSunday = dow === 0;
       const isSelected = booking.date && booking.date.getTime() === date.getTime();
       const isToday = date.getTime() === today.getTime();
 
       let cls = 'calendar-day';
       if (isPast) cls += ' disabled';
-      else if (isTuesday) cls += ' holiday';
+      else if (isHoliday) cls += ' holiday';
       else {
         if (isSunday) cls += ' sun';
         if (isToday) cls += ' today';
         if (isSelected) cls += ' selected';
       }
 
-      const clickable = !isPast && !isTuesday;
+      const clickable = !isPast && !isHoliday;
       html += `<div class="${cls}" ${clickable ? `onclick="selectDate(${calYear},${calMonth},${d})"` : ''}>${d}</div>`;
     }
     grid.innerHTML = html;
@@ -1631,9 +1640,13 @@
     const dow = ['日','月','火','水','木','金','土'][d.getDay()];
     label.textContent = `${m}月${dayStr}日（${dow}）の空き状況`;
 
+    /* 土日祝は営業時間が異なる */
+    const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+    const hours = isWeekend ? HOURS_WEEKEND : HOURS_WEEKDAY;
+
     /* デモ用: シード値ベースでランダムに予約済みスロットを生成 */
     const seed = d.getFullYear() * 10000 + d.getMonth() * 100 + d.getDate();
-    container.innerHTML = HOURS.map((h, i) => {
+    container.innerHTML = hours.map((h, i) => {
       const hash = (seed * 31 + i * 7) % 10;
       const unavailable = hash < 3; /* 約30%が予約済み */
       const cls = unavailable ? 'time-slot unavailable' : 'time-slot';
